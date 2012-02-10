@@ -19,14 +19,23 @@ public abstract class BaseController extends Controller {
 	}
 	
 	@Before
-	protected static void startMetrics() {
-		Histogram histo = Metrics.newHistogram(request.controllerClass, request.actionMethod, "requests");
-		histo = histograms.put(request.controller + "." + request.actionMethod, histo);	
+	public static void startTimer() {
+		startTimeMillis.set(System.currentTimeMillis());
 	}
 	
 	@After
 	public static void markRequestDuration() {
-		Histogram histo = histograms.get(request.controller + "." + request.actionMethod);
+		String key = request.controller + "." + request.actionMethod;
+		Histogram histo = histograms.get(key);
+		if(histo == null) {
+			histo = Metrics.newHistogram(request.controllerClass, request.actionMethod, "requests");
+			//note: this is lazy. I don't really need to worry about multiple Histogram
+			//objects being created thanks to the underlying way that Metrics.newHistogram does
+			//its getOrAdd under the covers. I would need to do those same checks here
+			//if that were not the case, this is not an example of a threadsafe way
+			//to add stateful objects to a concurrent hash map
+			histograms.putIfAbsent(request.controller + "." + request.actionMethod, histo);
+		}
 		histo.update( System.currentTimeMillis() - startTimeMillis.get());
 		
 	}
