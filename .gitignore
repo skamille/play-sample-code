@@ -1,0 +1,59 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+
+/target/*
+
+# Eclipse ephemera #
+######################
+/.settings
+.project
+.classpath
+
+# Play! #
+#########
+/tmp
+/bin
+/modules
+/lib
+/test-result
+/logs
+/eclipse
+
+# Cobertura lock file #
+#######################
+cobertura.ser
+
+# Intellij #
+############
+/.idea
+*.iml
