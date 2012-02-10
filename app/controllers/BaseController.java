@@ -34,7 +34,7 @@ public abstract class BaseController extends Controller {
 			//its getOrAdd under the covers. I would need to do those same checks here
 			//if that were not the case, this is not an example of a threadsafe way
 			//to add stateful objects to a concurrent hash map
-			histograms.putIfAbsent(request.controller + "." + request.actionMethod, histo);
+			histograms.putIfAbsent(key, histo);
 		}
 		histo.update( System.currentTimeMillis() - startTimeMillis.get());
 		
